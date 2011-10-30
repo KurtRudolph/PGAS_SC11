@@ -8,29 +8,31 @@
 \usepackage{algorithmic} %sudo code
 \usepackage{algorithm}  %more sudo code
 \usepackage[orientation=portrait,
-            size=custom, width=55.8, height=91.4,  % poster size 22in=55.88cm 91.44cm=36in
-            scale=.99         % font scale factor
-           ]{beamerposter}    % beamer in poster size
-%
+		size=custom, width=55.8, height=91.4,  % poster size 22in=55.88cm 91.44cm=36in
+		scale=.99         % font scale factor
+	]{beamerposter}    % beamer in poster size
+
+\usepackage{listings}
 %--some needed packages--------------------------------------------------------
 \usepackage[american]{babel}  % language 
 \usepackage[utf8]{inputenc}   % std linux encoding
+
 
 
 %
 %==The poster style============================================================
 \usetheme{pgassc11poster}            % our poster style
 %--set colors for blocks (without frame)---------------------------------------
-  \setbeamercolor{block title}{fg=ngreen,bg=white}
-  \setbeamercolor{block body}{fg=black,bg=white}
+\setbeamercolor{block title}{fg=ngreen,bg=white}
+\setbeamercolor{block body}{fg=black,bg=white}
 %--set colors for alerted blocks (with frame)----------------------------------
 %--textcolor = fg, backgroundcolor = bg, dblue is the jacobs blue
-  \setbeamercolor{block alerted title}{fg=white,bg=dblue!70}%frame color
-  \setbeamercolor{block alerted body}{fg=black,bg=dblue!10}%body color
+\setbeamercolor{block alerted title}{fg=white,bg=dblue!70}%frame color
+\setbeamercolor{block alerted body}{fg=black,bg=dblue!10}%body color
 %
 %==Titel, date and authors of the poster=======================================
 \title{Alternative High Performance Benchmarks}
-\author{Kurt Rudolph, Vivek Kale, William D. Gropp}
+\author{Kurt Rudolph, Vivek Kale, Lawrence C. Angrave, William D. Gropp}
 \institute{Department of Computer Science, University of Illinois Urbana-Champaign}
 \date{\today}
 %
@@ -40,11 +42,9 @@
 %  <x|
 \newcommand{\bra}[1]{\left\langle#1\right\vert}
 %  <x|y>
-\newcommand{\braket}[2]{\left< #1 \vphantom{#2}\,
-                        \right\vert\left.\!\vphantom{#1} #2 \right>}
+\newcommand{\braket}[2]{\left< #1 \vphantom{#2}\, \right\vert\left.\!\vphantom{#1} #2 \right>}
 %  <x|a|y>
-\newcommand{\sandwich}[3]{\left< #1 \vphantom{#2 #3} \right|
-                          #2 \left|\vphantom{#1 #2} #3 \right>}
+\newcommand{\sandwich}[3]{\left< #1 \vphantom{#2 #3} \right #2 \left|\vphantom{#1 #2} #3 \right>}
 %  d/dt
 \newcommand{\ddt}{\frac{d}{dt}}
 %  D/Dx
@@ -53,40 +53,39 @@
 \newcommand{\abs}[1]{\left\vert#1\right\vert}
 %  k_{x}
 \newcommand{\kv}[1]{\mathbf{k}_{#1}}
-%==============================================================================
-%==the poster content==========================================================
-%==============================================================================
+
+
+
+
 \begin{document}
-%--the poster is one beamer frame, so we have to start with:
-\begin{frame}[t]
-%--to seperate the poster in columns we can use the columns environment
- \begin{columns}[t] % the [t] options aligns the columns content at the top
-%===leftcolumn=================================================================
-% here the the middle and right column are put into one big column, this allows
-% to change between 2 and 3 column style
-  \begin{column}{0.60\paperwidth} %thats the big right column
-%--abstract block--------------------------------------------------------------
-	\begin{alertblock}{Abstract}
-	Benchmarks for High-Performance clusters generally focus on floating-point intensive calculations. Few of these address data intensive graph operations, a class of computation rapidly growing in demand.  As an alternative to standard floating-point benchmarks, a new benchmark, the Graph 500 has been proposed. The benchmark employ's multiple implementations with the intention to identify desecrate performance aspects via the comparative results, however a PGAS model has yet to be developed. This project focuses on understanding what capabilities a UPC Graph 500 implementation may offer. Specifically: 1. the UPC expressibility for irregular graph operations of Graph 500 and 2. simple performance testing of the efficiency of UPC with runs up to 1024 cores.
-	\end{alertblock}
-	\vskip2ex
-%--Examples block---------------------------------------------------------------
- %  \setbeamercolor{block alerted title}{fg=black,bg=gray!50}%frame color
-%   \setbeamercolor{block alerted body}{fg=black,bg=gray!30}%body color
-	\begin{block}{Random Access}%TODO: unify test description block color
-		When performing graph operations, random access to memory and random process communication are generally very common.  This test looks at how well a UPC Graph 500 implementation of may handle these operations.  To do so, we implement a dot product employing randomized access and communication. 
-  \end{block}
-  \vskip1ex
-%===two right columns===========================================================
-% we have to give the total width for the column wich is equal to the sum of
-% two colums and the space between them, this is needed to make shure the two
-% cols take all the space of the 'mother' column 
-  \begin{columns}[t,totalwidth=0.60\paperwidth]
-% and then we put in two normal sized columns
-   \begin{column}{0.28\paperwidth}
-%--the Left block---------------------------------------------------------------
-     	\bf{ALGORITHM \\ Having issues getting usepackage\{program\} to function properly with beamer}
-	
+	\begin{frame}[t]
+		\begin{columns}[t] 
+			  \begin{column}{0.60\paperwidth} 
+%=======================Avstract======================================================================================
+				\begin{alertblock}{Abstract}
+					Benchmarks for High-Performance clusters generally focus on floating-point intensive calculations. Few of these address data intensive graph operations, a class of computation rapidly growing in demand.  As an alternative to standard floating-point benchmarks, a new benchmark, the Graph 500 has been proposed. The benchmark employ's multiple implementations with the intention to identify desecrate performance aspects via the comparative results, however a PGAS model has yet to be developed. This project focuses on understanding what capabilities a UPC Graph 500 implementation may offer. Specifically: 1. the UPC expressibility for irregular graph operations of Graph 500 and 2. simple performance testing of the efficiency of UPC.
+				\end{alertblock}
+				\vskip2ex
+%=======================Linked List Traversal======================================================================================
+				\begin{block}{Random Access}
+					When performing graph operations, random access to memory and random process communication are generally very common.  This test looks at how well a UPC Graph 500 implementation of may handle these operations.  To do so, we implement a dot product employing randomized access and communication through the RDMA. 
+				\end{block}
+				\begin{columns}[t,totalwidth=0.60\paperwidth]
+					\begin{column}{0.28\paperwidth}
+						\lstinputlisting[language=C, basicstyle=\footnotesize]{ mpiSimpleSample.c}
+					\end{column}
+					\begin{column}{0.28\paperwidth}
+						\begin{columns}[t,totalwidth=0.28\paperwidth]
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/rand_access} \end{center}
+							\end{column}
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+							\end{column}
+						\end{columns}
+					\end{column}
+				\end{columns}
+				\vskip1ex
 %A UPC thread t_i first chooses a random cell in v1 that belongs to it:   v1[rand()%n];   
 %A UPC thread t_i then chooses a random cell in v2 to multiply with:    v2[rand()%n];  
 
@@ -102,129 +101,100 @@
 
 
 %These tests can be representative of graph traversal operations and irregular algorithms. They particularly test the class of computation UPC one-sided programming model would be used for. 
-   \end{column}
-%--the Right block--------------------------------------------------------------
-   \begin{column}{0.28\paperwidth}
-		\bf{GRAPH of Results}
-   \end{column}
-  \end{columns}
-    \vskip1ex
-%--wide text without block------------------------------------------------------
-Discussion of the results...........................................................
-  \vskip2ex
-%--Blocks and Colors------------------------------------------------------------
-  \begin{block}{Linked List Traversal}
-   The colors of the blocks and their headings and texts can be changed easily
-   by redefining the beamercolors. Therefore you can use all colornames 
-   defined by the xcolor package or you can define your own colors. Some nice
-   colors are already defined within the \emph{cpbgposter} style.
-  \end{block}
-%--again two columns------------------------------------------------------------
-  \begin{columns}[t,totalwidth=0.60\paperwidth]
-%--the left column-------------------------------------------------------------
-   \begin{column}{0.28\paperwidth}
-     	\bf{Sequential Vertices, Sequential Processes \\ picture \\ . \\ . \\ .}
-  \end{column}
-  %--the right column-------------------------------------------------------------
-  \begin{column}{0.28\paperwidth}
-	\bf{GRAPH of Results}
-  \end{column}
- \end{columns}
- \vskip1ex
- %--again two columns------------------------------------------------------------
-  \begin{columns}[t,totalwidth=0.60\paperwidth]
-%--the left column-------------------------------------------------------------
-   \begin{column}{0.28\paperwidth}
-     	\bf{Sequential Vertices, Random Processes \\ picture\\ . \\ . \\ .}
-  \end{column}
-  %--the right column-------------------------------------------------------------
-  \begin{column}{0.28\paperwidth}
-		\bf{GRAPH of Results}
-  \end{column}
- \end{columns}
-   \vskip1ex
- %--again two columns------------------------------------------------------------
-   \begin{columns}[t,totalwidth=0.60\paperwidth]
-%--the left column-------------------------------------------------------------
-   \begin{column}{0.28\paperwidth}
-     	\bf{Random Vertices, Sequential Processes \\ picture\\ . \\ . \\ .}
-  \end{column}
-  %--the right column-------------------------------------------------------------
-  \begin{column}{0.28\paperwidth}
-		\bf{GRAPH of Results}
-  \end{column}
- \end{columns}
-  \vskip1ex
-   %--again two columns------------------------------------------------------------
-   \begin{columns}[t,totalwidth=0.60\paperwidth]
-%--the left column-------------------------------------------------------------
-   \begin{column}{0.28\paperwidth}
-     	\bf{Random Vertices, Random Processes \\ picture\\ . \\ . \\ .}
-  \end{column}
-  %--the right column-------------------------------------------------------------
-  \begin{column}{0.28\paperwidth}
-		\bf{GRAPH of Results}
-  \end{column}
- \end{columns}
-   \vskip1ex
-   Discussion of the results...........................................................
-%--Multi process Linked list traversal------------------------------------------------------------   
-   \begin{block}{Multi Process Linked List Traversal}
-   The colors of the blocks and their headings and texts can be changed easily
-   by redefining the beamercolors. Therefore you can use all colornames 
-   defined by the xcolor package or you can define your own colors. Some nice
-   colors are already defined within the \emph{cpbgposter} style.
-  \end{block}
-%--again two columns------------------------------------------------------------
-  \begin{columns}[t,totalwidth=0.60\paperwidth]
-%--the left column-------------------------------------------------------------
-   \begin{column}{0.28\paperwidth}
-     	\bf{Sequential Vertices, Sequential Processes \\ picture \\ . \\ . \\ .}
-  \end{column}
-  %--the right column-------------------------------------------------------------
-  \begin{column}{0.28\paperwidth}
-	\bf{GRAPH of Results}
-  \end{column}
- \end{columns}
- \vskip1ex
- %--again two columns------------------------------------------------------------
-  \begin{columns}[t,totalwidth=0.60\paperwidth]
-%--the left column-------------------------------------------------------------
-   \begin{column}{0.28\paperwidth}
-     	\bf{Sequential Vertices, Random Processes \\ picture\\ . \\ . \\ .}
-  \end{column}
-  %--the right column-------------------------------------------------------------
-  \begin{column}{0.28\paperwidth}
-		\bf{GRAPH of Results}
-  \end{column}
- \end{columns}
-   \vskip1ex
- %--again two columns------------------------------------------------------------
-   \begin{columns}[t,totalwidth=0.60\paperwidth]
-%--the left column-------------------------------------------------------------
-   \begin{column}{0.28\paperwidth}
-     	\bf{Random Vertices, Sequential Processes \\ picture\\ . \\ . \\ .}
-  \end{column}
-  %--the right column-------------------------------------------------------------
-  \begin{column}{0.28\paperwidth}
-		\bf{GRAPH of Results}
-  \end{column}
- \end{columns}
-  \vskip1ex
-   %--again two columns------------------------------------------------------------
-   \begin{columns}[t,totalwidth=0.60\paperwidth]
-%--the left column-------------------------------------------------------------
-   \begin{column}{0.28\paperwidth}
-     	\bf{Random Vertices, Random Processes \\ picture\\ . \\ . \\ .}
-  \end{column}
-  %--the right column-------------------------------------------------------------
-  \begin{column}{0.28\paperwidth}
-		\bf{GRAPH of Results}
-  \end{column}
- \end{columns}
-   \vskip1ex
-   Discussion of the results...........................................................
-  \end{column}
+%=======================Linked List Traversal======================================================================================
+				\begin{block}{Linked List Traversal}
+					As a simple test to measure the efficiency of UPC when performing graph operations, various linked list structure have been set and up an the linked list traversal of which is timed.  
+				\end{block}
+				\begin{columns}[t,totalwidth=0.60\paperwidth]
+					\begin{column}{0.28\paperwidth}
+						\begin{center} \bf{Sequential Node, Sequential Process} \end{center}
+						\begin{columns}[t,totalwidth=0.28\paperwidth]
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_node_seq_proc} \end{center}
+							\end{column}
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+							\end{column}
+						\end{columns}
+					\end{column}
+					\begin{column}{0.28\paperwidth}
+						\begin{center} \bf{Sequential Process, Sequential Node} \end{center}
+						\begin{columns}[t,totalwidth=0.28\paperwidth]
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_proc_seq_node} \end{center}
+							\end{column}
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+							\end{column}
+						\end{columns}
+					\end{column}
+				\end{columns}
+				\begin{columns}[t,totalwidth=0.60\paperwidth]
+					\begin{column}{0.28\paperwidth}
+						\begin{center} \bf{Random Node, Sequential Process} \end{center}
+						\begin{columns}[t,totalwidth=0.28\paperwidth]
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/rand_node_seq_proc} \end{center}
+							\end{column}
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+							\end{column}
+						\end{columns}
+					\end{column}
+					\begin{column}{0.28\paperwidth}
+						\begin{center} \bf{Sequential Process, Random Node} \end{center}
+						\begin{columns}[t,totalwidth=0.28\paperwidth]
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_proc_rand_node} \end{center}
+							\end{column}
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+							\end{column}
+						\end{columns}
+					\end{column}
+				\end{columns}
+				\begin{columns}[t,totalwidth=0.60\paperwidth]
+					\begin{column}{0.28\paperwidth}
+						\begin{center} \bf{Sequential Node, Random Process} \end{center}
+						\begin{columns}[t,totalwidth=0.28\paperwidth]
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_node_rand_proc} \end{center}
+							\end{column}
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+							\end{column}
+						\end{columns}
+					\end{column}
+					\begin{column}{0.28\paperwidth}
+						\begin{center} \bf{Random Process, Sequential Node} \end{center}
+						\begin{columns}[t,totalwidth=0.28\paperwidth]
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/rand_proc_seq_node} \end{center}
+							\end{column}
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+							\end{column}
+						\end{columns}
+					\end{column}
+				\end{columns}
+				\begin{columns}[t,totalwidth=0.60\paperwidth]
+					\begin{column}{0.28\paperwidth}
+						\begin{center} \bf{Random Node, Random Process} \end{center}
+						\begin{columns}[t,totalwidth=0.28\paperwidth]
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/rand_proc_rand_node} \end{center}
+							\end{column}
+							\begin{column}{0.12\paperwidth}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+							\end{column}
+						\end{columns}
+					\end{column}
+					\begin{column}{0.28\paperwidth}
+						Discussion of the results...........................................................
+					\end{column}
+				\end{columns}
+%=======================Multi Process Linked List Traversal======================================================================================
+			\end{column}
 %===rightcolumn=================================================================
   \begin{column}{0.28\paperwidth}% the right size for a 3-column layout
 %--requirements block-----------------------------------------------------------
@@ -319,3 +289,10 @@ Discussion of the results.......................................................
  \end{columns}
 \end{frame}
 \end{document}
+
+
+
+
+%--set custom colors---------------------------------------------------------------
+ %  \setbeamercolor{block alerted title}{fg=black,bg=gray!50}%frame color
+%   \setbeamercolor{block alerted body}{fg=black,bg=gray!30}%body color
