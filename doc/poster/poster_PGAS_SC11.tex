@@ -53,22 +53,21 @@
 				\begin{alertblock}{Abstract}
 					Benchmarks for High-Performance clusters generally focus on floating-point intensive calculations. Few of these address data intensive graph operations, a class of computation rapidly growing in demand.  As an alternative to standard floating-point benchmarks, a new benchmark, the Graph 500 has been proposed. The benchmark employ's multiple implementations with the intention to identify desecrate performance aspects via the comparative results, however a PGAS model has yet to be developed. This project focuses on understanding what capabilities a UPC Graph 500 implementation may offer. Specifically: 1. the UPC expressibility for irregular graph operations of Graph 500 and 2. simple performance testing of the efficiency of UPC.
 				\end{alertblock}
-				\vskip2ex
 %=======================Linked List Traversal======================================================================================
 				\begin{block}{Random Access}
-					When performing graph operations, random access to memory and random process communication are generally very common.  This test looks at how well a UPC Graph 500 implementation of may handle these operations.  To do so, we implement a dot product employing randomized access and communication through the RDMA. 
+					When performing graph operations, random access to memory and random process communication are generally very common.  This test looks at how well a UPC Graph 500 implementation of may handle these operations.  To do so, we implement a dot product employing randomized access and communication through the RDMA.   The affinity to the vectors are distributed across all processes in the group and colored according.  Successive vector positions are stored successive memory locations of the according process.  
 				\end{block}
 				\begin{columns}[t,totalwidth=0.60\paperwidth]
 					\begin{column}{0.28\paperwidth}
-						\lstinputlisting[language=C, basicstyle=\footnotesize]{ mpiSimpleSample.c}
+						\lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/upcRandomAccess.c}
 					\end{column}
 					\begin{column}{0.28\paperwidth}
 						\begin{columns}[t,totalwidth=0.28\paperwidth]
 							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/rand_access} \end{center}
+								\includegraphics[width=0.12\paperwidth]{img/rand_access}
 							\end{column}
 							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+								\includegraphics[width=0.12\paperwidth]{img/temp}
 							\end{column}
 						\end{columns}
 					\end{column}
@@ -91,7 +90,7 @@
 %These tests can be representative of graph traversal operations and irregular algorithms. They particularly test the class of computation UPC one-sided programming model would be used for. 
 %=======================Linked List Traversal======================================================================================
 				\begin{block}{Linked List Traversal}
-					As a simple test to measure the efficiency of UPC when performing graph operations, various linked list structure have been set and up an the linked list traversal of which is timed.  
+					As a simple test to measure the efficiency of UPC when performing graph operations, various linked list structure have been built and a timed traversal is taken for each.  Similar to the previous test test, the affinity of the nodes are distributed across all processes in the group and colored according.  Successive nodes are stored in successive memory locations of the according process as well.  
 				\end{block}
 				\begin{columns}[t,totalwidth=0.60\paperwidth]
 					\begin{column}{0.28\paperwidth}
@@ -101,7 +100,7 @@
 								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_node_seq_proc} \end{center}
 							\end{column}
 							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
 							\end{column}
 						\end{columns}
 					\end{column}
@@ -112,7 +111,7 @@
 								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_proc_seq_node} \end{center}
 							\end{column}
 							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
 							\end{column}
 						\end{columns}
 					\end{column}
@@ -125,7 +124,7 @@
 								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/rand_node_seq_proc} \end{center}
 							\end{column}
 							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
 							\end{column}
 						\end{columns}
 					\end{column}
@@ -136,7 +135,7 @@
 								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_proc_rand_node} \end{center}
 							\end{column}
 							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
 							\end{column}
 						\end{columns}
 					\end{column}
@@ -149,7 +148,7 @@
 								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_node_rand_proc} \end{center}
 							\end{column}
 							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
 							\end{column}
 						\end{columns}
 					\end{column}
@@ -160,7 +159,7 @@
 								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/rand_proc_seq_node} \end{center}
 							\end{column}
 							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
 							\end{column}
 						\end{columns}
 					\end{column}
@@ -173,7 +172,7 @@
 								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/rand_proc_rand_node} \end{center}
 							\end{column}
 							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/logo_graph500} \end{center}
+								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
 							\end{column}
 						\end{columns}
 					\end{column}
@@ -185,10 +184,22 @@
 			\end{column}
 			\begin{column}{0.28\paperwidth}
 %=======================Discussion=======================================================================================================
-				\begin{block}{Discussion of all Results}
+				\begin{block}{Graph 500 BFS}
+				The Graph 500 currently employs multiple implementations using MPI and OpenMP.  
+					
+					The "Simple" MPI implementation achieves two-sided communication through communicator functions such as  \emph{send} and \emph{receive}. Sample from Graph500 BFS MPI Simple:\vspace{2 mm}
+					\lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/mpiSimpleSample.c}
+					 \vspace{5 mm}
+					  The "One Sided" MPI implementation achieves one-sided communication through MPI \emph{windows}, a feature built into MPICH2 API.  When a thread creates an MPI \emph{window} access to another threads address space is enabled through the variables associated through that window.  Sample from the Graph500 BFS MPI One Sided: 
+					  \vspace{2 mm}
+					  \lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/mpiOneSidedSample.c} 
+					  \vspace{5 mm}
+					  A UPC implementation of the Graph 500 will not require "windows" to achieve one sided communication.  However, address space used in any collective operations need to be allocated in shared memory space and receive the according performance loss of accessing memory a shared pointer over a local pointer.  MPI collectives from the Graph500 BFS implemented in UPC take the simpler implementation as follows: 
+					  \vspace{2 mm}
+					  \lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/upcOneSidedSample.c} 
 				\end{block}
 %=======================Conclusion========================================================================================================
-				\begin{block}{Conclusion and Future Work}
+				\begin{block}{Conclusion}
 				\end{block}
 %=======================References========================================================================================================
 				\begin{block}{References}
