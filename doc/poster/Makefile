@@ -1,3 +1,23 @@
+PDF_CC := pdflatex
+GLOSS_CC := makeglossaries
 
-all :
-	pdflatex -output-directory=obj poster_PGAS_SC11.tex
+FILE := poster_PGAS_SC11
+
+PDF:= pdf
+MAKEGLOSS = makegloss
+
+$(PDF): 
+	$(PDF_CC) $(FILE).tex
+
+$(MAKEGLOSS): 
+	$(GLOSS_CC) $(FILE)
+
+all:
+	$(PDF_CC) $(FILE).tex
+	$(GLOSS_CC) $(FILE)
+	$(PDF_CC) $(FILE).tex
+	$(GLOSS_CC) $(FILE)
+	$(PDF_CC) $(FILE).tex
+#glossary references it's self
+clean: 
+	find $(FILE)* ! -name $(FILE).tex -delete
