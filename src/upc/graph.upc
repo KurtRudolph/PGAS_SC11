@@ -66,7 +66,7 @@ void initialize(){
   if( MYTHREAD == 0) {
     head = tail = upc_alloc( sizeof( vertex_t));
     head->value = upc_alloc( sizeof( int));
-    *(head->value) = 22;//rand()%NUM_EDGES; 
+    *(head->value) = 0;//rand()%NUM_EDGES; 
     head->next = NULL;
     head->prev = NULL; 
   }  
