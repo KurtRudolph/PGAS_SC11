@@ -30,8 +30,8 @@ int main( int argc, char* argv[]){
   assert( THREADS % 2 == 0);
 
   char *pEnd;
-  VECTOR_SIZE = 1<<(int)strtod(argv[1], NULL);
-  NUM_ACCESSES = 1<<(int)strtod(argv[2], NULL);
+  VECTOR_SIZE = (int)strtod(argv[1], NULL);
+  NUM_ACCESSES = 32*(int)strtod(argv[2], NULL);
 
   initialize();
   random_access();

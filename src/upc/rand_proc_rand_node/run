@@ -4,7 +4,7 @@ for i in $(seq 1 1024 )
 do
   for j in $(seq 1 8)
   do
-      upcrun -n 32 ./random_access 1024 $i &
-      wait
+    upcrun -n 32 ./rand_proc_rand_node $i &
+    wait
   done
 done
