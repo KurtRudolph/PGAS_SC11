@@ -66,7 +66,7 @@ void initialize(){
   for( i= 0; i< THREADS; i++){
     if( i == MYTHREAD){
       for(j = 0; j < (NUM_VERTICES/THREADS); j++){
-        printf( "MYTHREAD %d\n", MYTHREAD);
+       // printf( "MYTHREAD %d\n", MYTHREAD);
         temp = tail;
         tail = upc_alloc( sizeof( vertex_t));
         tail->value = upc_alloc( sizeof( int));
