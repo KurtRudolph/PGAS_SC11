@@ -69,7 +69,7 @@ void initialize(){
       random_variable = rand();
     upc_barrier;
     if( (random_variable % THREADS) == MYTHREAD){
-      printf( "MYTHREAD %d\n", MYTHREAD);
+      //printf( "MYTHREAD %d\n", MYTHREAD);
       temp = tail;
       tail = upc_alloc( sizeof( vertex_t));
       tail->value = upc_alloc( sizeof( int));
