@@ -136,7 +136,7 @@
 					When performing graph operations, random access to memory and random process communication are generally very common.  This test looks at how well a UPC Graph 500 implementation of may handle these operations in parallel.  To do so, we implement a dot product employing randomized access and communication through the RDMA.   The affinity to the vectors are distributed across all processes in the group and colored according.  Successive vector positions are stored successive memory locations of the according process.  Access are performed simultaneously by all 32 UPC processes.
 				\end{block}
 				\begin{columns}[t,totalwidth=0.60\paperwidth]
-					\begin{column}{0.28\paperwidth}
+					\begin{column}{0.26\paperwidth}
 						{\small \lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/upcRandomAccess.c}}
 					\end{column}
 					\begin{column}{0.10\paperwidth}
@@ -146,10 +146,10 @@
 							\end{column}
 						\end{columns}
 					\end{column}
-					\begin{column}{0.22\paperwidth}
+					\begin{column}{0.24\paperwidth}
 						\begin{columns}[t,totalwidth=0.22\paperwidth]
-							\begin{column}{0.22\paperwidth}
-								\includegraphics[width=0.22\paperwidth]{img/temp}
+							\begin{column}{0.24\paperwidth}
+								\includegraphics[width=0.26\paperwidth]{img/data/random_access}
 							\end{column}
 						\end{columns}
 					\end{column}
