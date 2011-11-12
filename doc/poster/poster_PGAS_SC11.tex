@@ -19,7 +19,7 @@
 \setbeamercolor{block alerted body}{fg=black,bg=dblue!10}%body color
 
 %==Titel, date and authors of the poster=======================================
-\title{Alternative High Performance Benchmarks}
+\title{Alternative High Performance Benchmarks in UPC}
 \author{Kurt Rudolph, Vivek Kale, Lawrence C. Angrave, William D. Gropp}
 \institute{Department of Computer Science, University of Illinois Urbana-Champaign}
 \date{\today}
@@ -51,12 +51,15 @@
 			  \begin{column}{0.60\paperwidth} 
 %=======================Avstract======================================================================================
 				\begin{alertblock}{Abstract}
-					Benchmarks for High-Performance clusters generally focus on floating-point intensive calculations. Few of these address data intensive graph operations, a class of computation rapidly growing in demand.  As an alternative to standard floating-point benchmarks, a new benchmark, the Graph 500 has been proposed. The benchmark employ's multiple implementations with the intention to identify desecrate performance aspects via the comparative results, however a PGAS model has yet to be developed. This project focuses on understanding what capabilities a UPC Graph 500 implementation may offer. Specifically: 1. the UPC expressibility for irregular graph operations of Graph 500 and 2. simple performance testing of the efficiency of UPC.
+					Benchmarks for High-Performance clusters generally focus on floating-point intensive calculations.  Few of these address data intensive graph operations, a class of computation rapidly growing in demand. As an alternative to standard floating-point benchmarks, a new benchmark, the Graph 500 has been proposed. The benchmark employs multiple implementations in MPI and MPI-RMA. However, a PGAS model has yet to be developed. This project focuses on understanding what capabilities a UPC Graph 500 implementation may offer. Specifically, this is done through: 1. the UPC expressibility for irregular graph operations seen in Graph 500 and 2. performance testing of the efficiency of UPC in the context of irregular parallelism.
 				\end{alertblock}
 				\vskip2ex
 %=======================Linked List Traversal======================================================================================
 				\begin{block}{Linked List Traversal}
-					As a simple test to measure the efficiency of UPC when performing graph operations, various linked list structure have been built and a traversal mesuring clock cycles is taken for each.  The affinity of the nodes are distributed across all processes in the group and colored according.  Successive nodes in linked list are allocate successively and have afinity according process.  
+					As a simple test to measure the efficiency of UPC when performing graph operations, various linked
+list structure have been built and a traversal mesuring clock cycles is taken for each. The affinity of
+the nodes are distributed across all processes in the group and colored according. Successive nodes
+in linked list are allocate successively and have afinity according process.
 				\vskip1ex
 				\setbeamercolor{block title}{fg=dgreen,bg=white}
 				\setbeamercolor{block body}{fg=black,bg=white}
@@ -133,7 +136,13 @@
 				\vskip2ex
 %=======================Random Access======================================================================================
 				\begin{block}{Random Access}
-					When performing graph operations, random access to memory and random process communication are generally very common.  This test looks at how well a UPC Graph 500 implementation of may handle these operations in parallel.  To do so, we implement a dot product employing randomized access and communication through the RDMA.   The affinity to the vectors are distributed across all processes in the group and colored according.  Successive vector positions are stored successive memory locations of the according process.  Access are performed simultaneously by all 32 UPC processes.
+					When performing graph operations, random access to memory and random process communication
+are generally very common. This test looks at how well a UPC Graph 500 implementation may
+handle these operations in parallel. To do so, we implement a dot product employing randomized
+access and communication through the RDMA. The affinity to the vectors are distributed across
+all processes in the group and colored accordingly. Successive vector positions are stored successive
+memory locations of the according process. Accesses are performed simultaneously by all 32 UPC
+threads.
 				\end{block}
 				\begin{columns}[t,totalwidth=0.60\paperwidth]
 					\begin{column}{0.26\paperwidth}
