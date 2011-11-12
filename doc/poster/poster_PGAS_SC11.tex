@@ -53,139 +53,114 @@
 				\begin{alertblock}{Abstract}
 					Benchmarks for High-Performance clusters generally focus on floating-point intensive calculations. Few of these address data intensive graph operations, a class of computation rapidly growing in demand.  As an alternative to standard floating-point benchmarks, a new benchmark, the Graph 500 has been proposed. The benchmark employ's multiple implementations with the intention to identify desecrate performance aspects via the comparative results, however a PGAS model has yet to be developed. This project focuses on understanding what capabilities a UPC Graph 500 implementation may offer. Specifically: 1. the UPC expressibility for irregular graph operations of Graph 500 and 2. simple performance testing of the efficiency of UPC.
 				\end{alertblock}
+				\vskip2ex
 %=======================Linked List Traversal======================================================================================
+				\begin{block}{Linked List Traversal}
+					As a simple test to measure the efficiency of UPC when performing graph operations, various linked list structure have been built and a traversal mesuring clock cycles is taken for each.  The affinity of the nodes are distributed across all processes in the group and colored according.  Successive nodes in linked list are allocate successively and have afinity according process.  
+				\vskip1ex
+				\setbeamercolor{block title}{fg=dgreen,bg=white}
+				\setbeamercolor{block body}{fg=black,bg=white}
+				\begin{columns}[t,totalwidth=0.60\paperwidth]
+					\begin{column}{0.28\paperwidth}
+						\setbeamercolor{block alerted title}{fg=white,bg=dgreen}%frame color
+						\setbeamercolor{block alerted body}{fg=black,bg=dgreen!10}%body color
+						\begin{alertblock}{\small Test Info}
+							\begin{itemize}
+								\item 32 Cores IBM Power7 Cores
+								\item 32 UPC Processes per run
+								\item 32 to 3768 traversal nodes incrimenting by 32 per run
+								\item Each run repeated 8 times 
+							\end{itemize}
+						\end{alertblock}
+					\end{column}
+					\begin{column}{0.28\paperwidth}
+						\vskip2ex
+						\begin{block}{\small Sequential Process, Sequential Node\vskip2ex}
+							\begin{columns}[t,totalwidth=0.28\paperwidth]
+								\begin{column}{0.10\paperwidth}
+									\includegraphics[width=0.12\paperwidth]{img/linked_list/seq_proc_seq_node}
+								\end{column}
+								\begin{column}{0.14\paperwidth}
+									\includegraphics[width=0.16\paperwidth]{img/data/seq_proc_seq_node}
+								\end{column}
+							\end{columns}
+						\end{block}
+					\end{column}
+				\end{columns}
+				\vskip2ex
+				\begin{columns}[t,totalwidth=0.60\paperwidth]
+					\begin{column}{0.28\paperwidth}
+						\begin{block}{\small Sequential Node, Sequential Process\vskip2ex}
+							\begin{columns}[t,totalwidth=0.28\paperwidth]
+								\begin{column}{0.10\paperwidth}
+									\includegraphics[width=0.12\paperwidth]{img/linked_list/seq_node_seq_proc}
+								\end{column}
+								\begin{column}{0.14\paperwidth}
+									\includegraphics[width=0.16\paperwidth]{img/data/seq_node_seq_proc}
+								\end{column}
+							\end{columns}
+						\end{block}
+					\end{column}
+					\begin{column}{0.28\paperwidth}
+						\begin{block}{\small Random Process, Random Node\vskip2ex}
+							\begin{columns}[t,totalwidth=0.28\paperwidth]
+								\begin{column}{0.10\paperwidth}
+									\includegraphics[width=0.12\paperwidth]{img/linked_list/rand_proc_rand_node}
+								\end{column}
+								\begin{column}{0.14\paperwidth}
+									\includegraphics[width=0.16\paperwidth]{img/data/rand_proc_rand_node}
+								\end{column}
+							\end{columns}
+						\end{block}
+					\end{column}
+				\end{columns}
+				\vskip3ex
+				\begin{columns}[t,totalwidth=0.60\paperwidth]
+					\begin{column}{0.28\paperwidth}
+						\begin{block}{\small Cumulative Results\vskip2ex}
+							\includegraphics[width=0.28\paperwidth]{img/data/cumlative_traversal}
+						\end{block}
+					\end{column}
+					\begin{column}{0.28\paperwidth}
+						\setbeamercolor{block title}{fg=red,bg=white}
+						\setbeamercolor{block body}{fg=black,bg=white}
+						\begin{block}{\small Discussion\vskip2ex}
+							The results give insight into how UPC graph operations may perform on the system.  Having a single process performing the linked list traversal provides a baseline for a fully optimized for parallel graph algorithm.  
+						\end{block}
+					\end{column}
+				\end{columns}
+				\end{block}
+				\vskip2ex
+%=======================Random Access======================================================================================
 				\begin{block}{Random Access}
-					When performing graph operations, random access to memory and random process communication are generally very common.  This test looks at how well a UPC Graph 500 implementation of may handle these operations.  To do so, we implement a dot product employing randomized access and communication through the RDMA.   The affinity to the vectors are distributed across all processes in the group and colored according.  Successive vector positions are stored successive memory locations of the according process.  
+					When performing graph operations, random access to memory and random process communication are generally very common.  This test looks at how well a UPC Graph 500 implementation of may handle these operations in parallel.  To do so, we implement a dot product employing randomized access and communication through the RDMA.   The affinity to the vectors are distributed across all processes in the group and colored according.  Successive vector positions are stored successive memory locations of the according process.  Access are performed simultaneously by all 32 UPC processes.
 				\end{block}
 				\begin{columns}[t,totalwidth=0.60\paperwidth]
 					\begin{column}{0.28\paperwidth}
-						\lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/upcRandomAccess.c}
+						{\small \lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/upcRandomAccess.c}}
 					\end{column}
-					\begin{column}{0.28\paperwidth}
-						\begin{columns}[t,totalwidth=0.28\paperwidth]
-							\begin{column}{0.12\paperwidth}
-								\includegraphics[width=0.12\paperwidth]{img/rand_access}
+					\begin{column}{0.10\paperwidth}
+						\begin{columns}[t,totalwidth=0.10\paperwidth]
+							\begin{column}{0.10\paperwidth}
+								\includegraphics[width=0.09\paperwidth]{img/rand_access}
 							\end{column}
-							\begin{column}{0.12\paperwidth}
-								\includegraphics[width=0.12\paperwidth]{img/temp}
+						\end{columns}
+					\end{column}
+					\begin{column}{0.22\paperwidth}
+						\begin{columns}[t,totalwidth=0.22\paperwidth]
+							\begin{column}{0.22\paperwidth}
+								\includegraphics[width=0.22\paperwidth]{img/temp}
 							\end{column}
 						\end{columns}
 					\end{column}
 				\end{columns}
 				\vskip1ex
-%A UPC thread t_i first chooses a random cell in v1 that belongs to it:   v1[rand()%n];   
-%A UPC thread t_i then chooses a random cell in v2 to multiply with:    v2[rand()%n];  
-
-%There is 1/p chance that a thread will access its own partition. There is (p-1)/p chance that a thread will have to go through the RDMA to retrieve the data it needs to do the floating-point multiplication.
-
-%Other variants exist:  
-
-%  - each thread runs through its own partition v1[(n/p)*i]  to v1[(n/p)*i] ,  and for each choose  v2[rand()%(n/p) + (n/p)*i] based on thread partition each thread has.
-
- %  - each thread chooses a random cell in its partition  of v1  and then chooses a cell in its partition of v2. 
-  
- % - choose whether you want to have distinct pairs, or have some cells  repeated across pairs, or entire pairs repeated. 
-
-
-%These tests can be representative of graph traversal operations and irregular algorithms. They particularly test the class of computation UPC one-sided programming model would be used for. 
-%=======================Linked List Traversal======================================================================================
-				\begin{block}{Linked List Traversal}
-					As a simple test to measure the efficiency of UPC when performing graph operations, various linked list structure have been built and a timed traversal is taken for each.  Similar to the previous test test, the affinity of the nodes are distributed across all processes in the group and colored according.  Successive nodes are stored in successive memory locations of the according process as well.  
-				\end{block}
-				\begin{columns}[t,totalwidth=0.60\paperwidth]
-					\begin{column}{0.28\paperwidth}
-						\begin{center} \bf{Sequential Node, Sequential Process} \end{center}
-						\begin{columns}[t,totalwidth=0.28\paperwidth]
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_node_seq_proc} \end{center}
-							\end{column}
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
-							\end{column}
-						\end{columns}
-					\end{column}
-					\begin{column}{0.28\paperwidth}
-						\begin{center} \bf{Sequential Process, Sequential Node} \end{center}
-						\begin{columns}[t,totalwidth=0.28\paperwidth]
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_proc_seq_node} \end{center}
-							\end{column}
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
-							\end{column}
-						\end{columns}
-					\end{column}
-				\end{columns}
-				\begin{columns}[t,totalwidth=0.60\paperwidth]
-					\begin{column}{0.28\paperwidth}
-						\begin{center} \bf{Random Node, Sequential Process} \end{center}
-						\begin{columns}[t,totalwidth=0.28\paperwidth]
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/rand_node_seq_proc} \end{center}
-							\end{column}
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
-							\end{column}
-						\end{columns}
-					\end{column}
-					\begin{column}{0.28\paperwidth}
-						\begin{center} \bf{Sequential Process, Random Node} \end{center}
-						\begin{columns}[t,totalwidth=0.28\paperwidth]
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_proc_rand_node} \end{center}
-							\end{column}
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
-							\end{column}
-						\end{columns}
-					\end{column}
-				\end{columns}
-				\begin{columns}[t,totalwidth=0.60\paperwidth]
-					\begin{column}{0.28\paperwidth}
-						\begin{center} \bf{Sequential Node, Random Process} \end{center}
-						\begin{columns}[t,totalwidth=0.28\paperwidth]
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/seq_node_rand_proc} \end{center}
-							\end{column}
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
-							\end{column}
-						\end{columns}
-					\end{column}
-					\begin{column}{0.28\paperwidth}
-						\begin{center} \bf{Random Process, Sequential Node} \end{center}
-						\begin{columns}[t,totalwidth=0.28\paperwidth]
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/rand_proc_seq_node} \end{center}
-							\end{column}
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
-							\end{column}
-						\end{columns}
-					\end{column}
-				\end{columns}
-				\begin{columns}[t,totalwidth=0.60\paperwidth]
-					\begin{column}{0.28\paperwidth}
-						\begin{center} \bf{Random Node, Random Process} \end{center}
-						\begin{columns}[t,totalwidth=0.28\paperwidth]
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/linked_list/rand_proc_rand_node} \end{center}
-							\end{column}
-							\begin{column}{0.12\paperwidth}
-								\begin{center} \includegraphics[width=0.12\paperwidth]{img/temp} \end{center}
-							\end{column}
-						\end{columns}
-					\end{column}
-					\begin{column}{0.28\paperwidth}
-						Discussion of the results...........................................................
-					\end{column}
-				\end{columns}
 %=======================Multi Process Linked List Traversal======================================================================================
 			\end{column}
 			\begin{column}{0.28\paperwidth}
 %=======================Discussion=======================================================================================================
 				\begin{block}{Graph 500 BFS}
-				The Graph 500 currently employs multiple implementations using MPI and OpenMP.  
+					Currently, the Graph 500 employs multiple implementations using MPI and OpenMP.  
 					
 					The "Simple" MPI implementation achieves two-sided communication through communicator functions such as  \emph{send} and \emph{receive}. Sample from Graph500 BFS MPI Simple:\vspace{2 mm}
 					\lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/mpiSimpleSample.c}
@@ -199,16 +174,27 @@
 					  \lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/upcOneSidedSample.c} 
 				\end{block}
 %=======================Conclusion========================================================================================================
-				\begin{block}{Conclusion}
+				\begin{block}{Summary}
 				\end{block}
 %=======================References========================================================================================================
 				\begin{block}{References}
 					\begin{thebibliography}{7}
-						{\small
-						\bibitem{UPC_Language_Spcification}
-							\url{http://upc.gwu.edu/docs/upc_specs_1.2.pdf}
+						{\tiny
+						\bibitem{hpcs_graph_benchmark}
+							\emph{Design and Implementation of the HPCS Graph Analysis Benchmark
+on Symmetric Multiprocessors}. D.A. Bader, M. Parashar, S. Varadarajan, and V.K. Prasanna, editors, Proc. 12th Int'l. Conf. on High Performance Computing (HiPC 2005), volume 3769 of LNCS, pages 465--476, Goa, India, December 2005. Springer.
+							\url{http://www.cse.psu.edu/~madduri/papers/SSCA2-HiPC05.pdf}
 						\bibitem{Introduction_To_UPC}
-							  \url{http://upc.lbl.gov/publications/UPC-TR-Original99.pdf}
+							\emph{Introduction to UPC and Language Specification}
+							W. Carlson, J. Draper, D. Culler, K. Yelick, E. Brooks, and K. Warren. CCS-TR-99-157, IDA Center for Computing Sciences, 1999.
+						  \url{http://upc.lbl.gov/publications/UPC-TR-Original99.pdf}
+						\bibitem{UPC_Language_Spcification}
+							\emph{A publication of the UPC Consortium}
+							UPC Consortium, the current release of the UPC Language Specification is version 1.2, finalized in June of 2005.
+							\url{http://upc.gwu.edu/docs/upc_specs_1.2.pdf}
+						\bibitem{MPI}
+							\emph{MPI: A Message-Passing Interface Standard} Message Passign Interface Forum, Version 2.2, September 4, 2009 
+							\url{http://mpi-forum.org/docs/mpi-2.2/mpi22-report.pdf}
 						}
 					\end{thebibliography}
 				\end{block}
