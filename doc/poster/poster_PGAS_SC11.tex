@@ -15,7 +15,7 @@
 \setbeamercolor{block body}{fg=black,bg=white}
 %--set colors for alerted blocks (with frame)----------------------------------
 %--textcolor = fg, backgroundcolor = bg, dblue is the jacobs blue
-\setbeamercolor{block alerted title}{fg=white,bg=dblue!70}%frame color
+\setbeamercolor{block alerted title}{fg=white,bg=dblue}%frame color
 \setbeamercolor{block alerted body}{fg=black,bg=dblue!10}%body color
 
 %==Titel, date and authors of the poster=======================================
@@ -59,7 +59,7 @@
 					As a simple test to measure the efficiency of UPC when performing graph operations, various linked
 list structure have been built and a traversal mesuring clock cycles is taken for each. The affinity of
 the nodes are distributed across all processes in the group and colored according. Successive nodes
-in linked list are allocate successively and have afinity according process.
+in linked list are allocate successively and have afinity according process and a single UPC process traverses the linked list.
 				\vskip1ex
 				\setbeamercolor{block title}{fg=dgreen,bg=white}
 				\setbeamercolor{block body}{fg=black,bg=white}
@@ -69,7 +69,7 @@ in linked list are allocate successively and have afinity according process.
 						\setbeamercolor{block alerted body}{fg=black,bg=dgreen!10}%body color
 						\begin{alertblock}{\small Test Info}
 							\begin{itemize}
-								\item 32 Cores IBM Power7 Cores
+								\item 32 IBM Power7 Cores
 								\item 32 UPC Processes per run
 								\item 32 to 3768 traversal nodes incrimenting by 32 per run
 								\item Each run repeated 8 times 
@@ -129,20 +129,22 @@ in linked list are allocate successively and have afinity according process.
 						\setbeamercolor{block body}{fg=black,bg=white}
 						\begin{block}{\small Discussion\vskip2ex}
 							The results give insight into how UPC graph operations may perform on the system.  Having a single process performing the linked list traversal provides a baseline for a fully optimized for parallel graph algorithm.  
+
+							The jump at 2600 nodes indicates the amount of data required to perform the traversal has overflowed the capacity of the CPUs cache's.  After that point much slower access to disk must be performed in order to complete the computation.   
 						\end{block}
 					\end{column}
 				\end{columns}
 				\end{block}
 				\vskip2ex
 %=======================Random Access======================================================================================
-				\begin{block}{Random Access}
+				\begin{block}{Parallel Random Access}
 					When performing graph operations, random access to memory and random process communication
 are generally very common. This test looks at how well a UPC Graph 500 implementation may
 handle these operations in parallel. To do so, we implement a dot product employing randomized
 access and communication through the RDMA. The affinity to the vectors are distributed across
 all processes in the group and colored accordingly. Successive vector positions are stored successive
 memory locations of the according process. Accesses are performed simultaneously by all 32 UPC
-threads.
+threads. The test is set in the same manor as the proceeding; 32 IBM Power7 cores, 32 UPC processes per run, 32 to 3768 memory accesses and array elements per process per run, and each run is repeated 8 times.   
 				\end{block}
 				\begin{columns}[t,totalwidth=0.60\paperwidth]
 					\begin{column}{0.26\paperwidth}
@@ -178,12 +180,17 @@ threads.
 					  \vspace{2 mm}
 					  \lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/mpiOneSidedSample.c} 
 					  \vspace{5 mm}
-					  A UPC implementation of the Graph 500 will not require "windows" to achieve one sided communication.  However, address space used in any collective operations need to be allocated in shared memory space and receive the according performance loss of accessing memory a shared pointer over a local pointer.  MPI collectives from the Graph500 BFS implemented in UPC take the simpler implementation as follows: 
+					  A UPC implementation of the Graph 500 will not require "windows" to achieve one sided communication.  However, address space used in any collective operations need to be allocated in shared memory space and receive the according performance loss of accessing memory via a shared pointer over a local pointer.  MPI collectives from the Graph500 BFS implemented in UPC take the simpler implementation as follows: 
 					  \vspace{2 mm}
 					  \lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/upcOneSidedSample.c} 
 				\end{block}
 %=======================Conclusion========================================================================================================
 				\begin{block}{Summary}
+					The	\emph{Linked List Traversal} section attempts to emulate graph operations in UPC as simple as possible.  The purpose is to isolate the fundamental task (traversing a linked list) of any graph operation.
+
+					The second section, \emph{Parallel Random Access}, attempts emulate a fully parallel graph operation in UPC.  The purpose is to identify how well UPC performs massively parallel graph operations with memory affinity randomly distributed to each of the processes.  
+			
+					The Proceeding section, \emph{Graph 500 BFS}, attempts to compare the current MPI and MPI-RMA implementations of the current Graph 500 to a potential UPC implementation.
 				\end{block}
 %=======================References========================================================================================================
 				\begin{block}{References}
@@ -204,6 +211,7 @@ on Symmetric Multiprocessors}. D.A. Bader, M. Parashar, S. Varadarajan, and V.K.
 						\bibitem{MPI}
 							\emph{MPI: A Message-Passing Interface Standard} Message Passign Interface Forum, Version 2.2, September 4, 2009 
 							\url{http://mpi-forum.org/docs/mpi-2.2/mpi22-report.pdf}
+						\bibitem{MPI}
 						}
 					\end{thebibliography}
 				\end{block}
