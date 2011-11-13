@@ -51,15 +51,15 @@
 			  \begin{column}{0.60\paperwidth} 
 %=======================Avstract======================================================================================
 				\begin{alertblock}{Abstract}
-					Benchmarks for High-Performance clusters generally focus on floating-point intensive calculations.  Few of these address data intensive graph operations, a class of computation rapidly growing in demand. As an alternative to standard floating-point benchmarks, a new benchmark, the Graph 500 has been proposed. The benchmark employs multiple implementations in MPI and MPI-RMA. However, a PGAS model has yet to be developed. This project focuses on understanding what capabilities a UPC Graph 500 implementation may offer. Specifically, this is done through: 1. the UPC expressibility for irregular graph operations seen in Graph 500 and 2. performance testing of the efficiency of UPC in the context of irregular parallelism.
+					Benchmarks for High-Performance clusters generally focus on floating-point intensive calculations.  Few of these address data intensive graph operations, a class of computation rapidly growing in demand. As an alternative to standard floating-point benchmarks, a new benchmark, the Graph 500 has been proposed. The benchmark employs multiple implementations in MPI and MPI-RMA. However, a PGAS implementation has yet to be developed. This project focuses on understanding what capabilities a UPC Graph 500 implementation may offer. Specifically, this is done through: 1. the UPC expressibility for irregular graph operations seen in Graph 500 and 2. performance testing of the efficiency of UPC in the context of irregular parallelism.
 				\end{alertblock}
 				\vskip2ex
 %=======================Linked List Traversal======================================================================================
 				\begin{block}{Linked List Traversal}
 					As a simple test to measure the efficiency of UPC when performing graph operations, various linked
-list structure have been built and a traversal mesuring clock cycles is taken for each. The affinity of
-the nodes are distributed across all processes in the group and colored according. Successive nodes
-in linked list are allocate successively and have afinity according process.  A single UPC process traverses the linked list.
+list structures have been built and a traversal measuring the timing for each is taken.
+The nodes are distributed across all threads in the group and colored accordingly as shown in the pictures below.
+A single UPC thread traverses the linked list.
 				\vskip1ex
 				\setbeamercolor{block title}{fg=dgreen,bg=white}
 				\setbeamercolor{block body}{fg=black,bg=white}
@@ -69,16 +69,16 @@ in linked list are allocate successively and have afinity according process.  A 
 						\setbeamercolor{block alerted body}{fg=black,bg=dgreen!10}%body color
 						\begin{alertblock}{\small Test Info}
 							\begin{itemize}
-								\item 32 IBM Power7 Cores
-								\item 32 UPC Processes per run
-								\item 32 to 3768 traversal nodes incrimenting by 32 per run
+								\item IBM Power7 with 32 Cores
+								\item 32 UPC Threads per run
+								\item 32 to 3768 traversal nodes incrementing by 32 nodes per run
 								\item Each run repeated 8 times 
 							\end{itemize}
 						\end{alertblock}
 					\end{column}
 					\begin{column}{0.28\paperwidth}
 						\vskip2ex
-						\begin{block}{\small Sequential Process, Sequential Node\vskip2ex}
+						\begin{block}{\small Sequential Thread, Sequential Node\vskip2ex}
 							\begin{columns}[t,totalwidth=0.28\paperwidth]
 								\begin{column}{0.10\paperwidth}
 									\includegraphics[width=0.12\paperwidth]{img/linked_list/seq_proc_seq_node}
@@ -93,7 +93,7 @@ in linked list are allocate successively and have afinity according process.  A 
 				\vskip2ex
 				\begin{columns}[t,totalwidth=0.60\paperwidth]
 					\begin{column}{0.28\paperwidth}
-						\begin{block}{\small Sequential Node, Sequential Process\vskip2ex}
+						\begin{block}{\small Sequential Node, Sequential Thread\vskip2ex}
 							\begin{columns}[t,totalwidth=0.28\paperwidth]
 								\begin{column}{0.10\paperwidth}
 									\includegraphics[width=0.12\paperwidth]{img/linked_list/seq_node_seq_proc}
@@ -105,7 +105,7 @@ in linked list are allocate successively and have afinity according process.  A 
 						\end{block}
 					\end{column}
 					\begin{column}{0.28\paperwidth}
-						\begin{block}{\small Random Process, Random Node\vskip2ex}
+						\begin{block}{\small Random Thread, Random Node\vskip2ex}
 							\begin{columns}[t,totalwidth=0.28\paperwidth]
 								\begin{column}{0.10\paperwidth}
 									\includegraphics[width=0.12\paperwidth]{img/linked_list/rand_proc_rand_node}
@@ -128,9 +128,9 @@ in linked list are allocate successively and have afinity according process.  A 
 						\setbeamercolor{block title}{fg=red,bg=white}
 						\setbeamercolor{block body}{fg=black,bg=white}
 						\begin{block}{\small Discussion\vskip2ex}
-							The results give insight into how UPC graph operations may perform on the system.  Having a single process performing the linked list traversal provides a baseline for a fully optimized parallel graph algorithm.  
+							{\small The results give insight into how UPC graph operations may perform on a given system.  Having a single thread performing the linked list traversal provides a baseline for a fully optimized parallel graph algorithm and allows us to truly test the UPC runtime.
 
-							The jump at 2600 nodes indicates the amount of data required to perform the traversal has overflowed the capacity of the CPUs cache's.  After that point much slower access to non-cache memory must be performed in order to complete the computation.   
+							The jump in timings in the charts at 2600 nodes seems to indicate that the amount of data required to perform the traversal has overflowed the capacity of the CPU's caches.  After that point, much slower access to the next level of cache in the memory hierarchy must be performed in order to complete the traversal.}
 						\end{block}
 					\end{column}
 				\end{columns}
@@ -138,13 +138,12 @@ in linked list are allocate successively and have afinity according process.  A 
 				\vskip2ex
 %=======================Random Access======================================================================================
 				\begin{block}{Parallel Random Access}
-					When performing graph operations, random access to memory and random process communication
-are generally very common. This test looks at how well a UPC Graph 500 implementation may
+					When performing graph operations, random access to memory and random thread communications
+are very common. This test explores how well a UPC Graph 500 implementation may
 handle these operations in parallel. To do so, we implement a dot product employing randomized
-access and communication through the RDMA. The affinity to the vectors are distributed across
-all processes in the group and colored accordingly. Successive vector positions are stored successive
-memory locations of the according process. Accesses are performed simultaneously by all 32 UPC
-threads. The test is configured in the same manor as the linked list traversals; 32 IBM Power7 cores, 32 UPC processes per run, 32 to 3768 memory accesses and array elements per process per run, and each run is repeated 8 times.   
+access and communication through the RDMA. The vectors are distributed across
+all threads in the group and colored accordingly in the picture below.  Accesses are performed simultaneously by all 32 UPC
+threads. The test is configured in the same manner as the linked list traversals: IBM Power7 with 32 cores, 32 UPC threads per run, 32 to 3768 memory accesses and array elements per thread per run, and each run is repeated 8 times.   
 				\end{block}
 				\begin{columns}[t,totalwidth=0.60\paperwidth]
 					\begin{column}{0.26\paperwidth}
@@ -173,27 +172,29 @@ threads. The test is configured in the same manor as the linked list traversals;
 				\begin{block}{Graph 500 BFS}
 					Currently, the Graph 500 employs multiple implementations using MPI and OpenMP.  
 					
-					The "Simple" MPI implementation achieves two-sided communication through communicator functions such as  \emph{send} and \emph{receive}. Sample from Graph500 BFS MPI Simple:\vspace{2 mm}
+					The "Simple" MPI implementation achieves two-sided communication through communicator functions such as  \emph{send} and \emph{receive}. A sample from the Graph 500 BFS MPI Simple implementation is shown below:\vspace{2 mm}
 					\lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/mpiSimpleSample.c}
-					 \vspace{5 mm}
-					  The "One Sided" MPI implementation achieves one-sided communication through MPI \emph{windows}, a feature built into MPICH2 API.  When a thread creates an MPI \emph{window} access to another threads address space is enabled through the variables associated through that window.  Sample from the Graph500 BFS MPI One Sided: 
+					 \vspace{3 mm}
+					  The "One Sided" MPI implementation achieves one-sided communication through MPI \emph{windows}, a feature built into MPICH2.  When a process creates an MPI \emph{window}, access to another process's address space is enabled through the variables associated with that window.  A sample from the Graph 500 BFS MPI One Sided implementation is shown below: 
 					  \vspace{2 mm}
 					  \lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/mpiOneSidedSample.c} 
-					  \vspace{5 mm}
-					  A UPC implementation of the Graph 500 will not require "windows" to achieve one sided communication.  However, address space used in any collective operations need to be allocated in shared memory space and receive the according performance loss of accessing memory via a shared pointer over a local pointer.  MPI collectives from the Graph500 BFS implemented in UPC take the simpler implementation as follows: 
+					  \vspace{3 mm}
+					  A UPC implementation of the Graph 500 will not require "windows" to achieve one sided communication.  However, memory used in any collective operations needs to be allocated in shared address space.  Note that this may incur some performance loss due to accessing memory via a shared pointer.  MPI collectives from the Graph 500 BFS implemented in UPC take the simpler implementation, as shown below: 
 					  \vspace{2 mm}
 					  \lstinputlisting[language=C, basicstyle=\footnotesize]{ code_sample/upcOneSidedSample.c} 
 				\end{block}
 %=======================Conclusion========================================================================================================
 				\begin{block}{Summary}
-					The	\emph{Linked List Traversal} section attempts to emulate graph operations in UPC as simple as possible.  The purpose is to isolate the fundamental task (traversing a linked list) of any graph operation.
+					\begin{itemize}
+						\item We have defined performance tests which emulate operations in the Graph 500.  The purpose is to isolate the fundamental task (traversing a linked list) of any graph operation.
 
-					The second section, \emph{Parallel Random Access}, attempts emulate a fully parallel graph operation in UPC.  The purpose is to identify how well UPC performs massively parallel graph operations with memory affinity randomly distributed to each of the processes.  
+						\item We then emulate a fully parallel graph operation in UPC.  The purpose is to identify how well UPC performs massively parallel graph operations with memory randomly distributed to each of the threads.  
 			
-					The Proceeding section, \emph{Graph 500 BFS}, attempts to compare the current MPI and MPI-RMA implementations of the current Graph 500 to a potential UPC implementation.
+						\item Finally, we compare the MPI and MPI-RMA implementations of the Graph 500 to a potential UPC implementation.
+					\end{itemize}
 				\end{block}
 %=======================References========================================================================================================
-				\begin{block}{References}
+				\begin{block}{\small References\vskip2ex}
 					\begin{thebibliography}{7}
 						{\tiny
 						\bibitem{hpcs_graph_benchmark}
